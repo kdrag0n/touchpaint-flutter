@@ -11,7 +11,7 @@ class PaintApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PaintPage(title: 'Flutter Demo Home Page'),
+      home: PaintPage(),
     );
   }
 }

@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
 class PaintPage extends StatefulWidget {
-  PaintPage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  PaintPage({Key key}) : super(key: key);
 
   @override
   _PaintPageState createState() => _PaintPageState();
+}
+
+class PaintPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // TODO: implement paint
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
 }
 
 class _PaintPageState extends State<PaintPage> {
@@ -22,27 +32,17 @@ class _PaintPageState extends State<PaintPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Touchpaint'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      body: LayoutBuilder(
+        builder: (_, constraints) => Container(
+            width: constraints.widthConstraints().maxWidth,
+            height: constraints.heightConstraints().maxHeight,
+            color: Colors.black,
+            child: CustomPaint(painter: PaintPainter()
+          )
+        )
+      )
     );
   }
 }
