@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
 class PaintPage extends StatefulWidget {
@@ -36,14 +38,16 @@ class PaintPainter extends CustomPainter {
 class _PaintPageState extends State<PaintPage> {
   List<Path> _paths = [];
   int _fingers = 0;
-  Path _curPath;
+  Map<int, Path> _curPaths = HashMap();
 
   void _fingerDown(PointerEvent details) {
     setState(() {
       _fingers++;
-      _curPath = Path();
-      _curPath.moveTo(details.localPosition.dx, details.localPosition.dy);
-      _paths.add(_curPath);
+
+      Path path = Path();
+      path.moveTo(details.localPosition.dx, details.localPosition.dy);
+      _curPaths[details.pointer] = path;
+      _paths.add(path);
     });
 
     _fingerMove(details);
@@ -51,15 +55,14 @@ class _PaintPageState extends State<PaintPage> {
 
   void _fingerMove(PointerEvent details) {
     setState(() {
-      _curPath.lineTo(details.localPosition.dx, details.localPosition.dy);
+      _curPaths[details.pointer].lineTo(details.localPosition.dx, details.localPosition.dy);
     });
   }
 
   void _fingerUp(PointerEvent details) {
     setState(() {
       _fingers--;
-      _paths.add(_curPath);
-      _curPath = null;
+      _curPaths.remove(details.pointer);
     });
   }
 
