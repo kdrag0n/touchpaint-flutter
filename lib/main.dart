@@ -184,7 +184,10 @@ class _MainPageState extends State<MainPage> {
 
     switch (_mode) {
       case Mode.PAINT:
-        bodyWidget = PaintWidget(brushSize: _paintBrushSize);
+        bodyWidget = PaintWidget(
+          brushSize: _paintBrushSize,
+          clearDelay: _paintClearDelay,
+        );
         break;
       case Mode.FILL:
         bodyWidget = FillWidget();

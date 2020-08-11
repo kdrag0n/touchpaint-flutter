@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
@@ -30,9 +31,10 @@ class PaintPainter extends CustomPainter {
 }
 
 class PaintWidget extends StatefulWidget {
-  PaintWidget({Key key, this.brushSize}) : super(key: key);
+  PaintWidget({Key key, this.brushSize, this.clearDelay}) : super(key: key);
 
   final double brushSize;
+  final int clearDelay;
 
   @override
   _PaintWidgetState createState() => _PaintWidgetState();
@@ -42,9 +44,18 @@ class _PaintWidgetState extends State<PaintWidget> {
   List<Path> _paths = [];
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
+  Timer _clearTimer;
 
   void _clearCanvas() {
     _paths.clear();
+  }
+
+  void _scheduleClear() {
+    _clearTimer = Timer(Duration(milliseconds: widget.clearDelay), () {
+      setState(() {
+        _clearCanvas();
+      });
+    });
   }
 
   void _fingerDown(PointerEvent details) {
@@ -55,7 +66,11 @@ class _PaintWidgetState extends State<PaintWidget> {
       _fingers++;
 
       if (_fingers == 1) {
-        _clearCanvas();
+        if (widget.clearDelay > 0 && _clearTimer != null) {
+          _clearTimer.cancel();
+        } else if (widget.clearDelay == 0) {
+          _clearCanvas();
+        }
       }
 
       _curPaths[details.pointer] = path;
@@ -75,6 +90,10 @@ class _PaintWidgetState extends State<PaintWidget> {
     setState(() {
       _fingers--;
       _curPaths.remove(details.pointer);
+
+      if (widget.clearDelay > 0) {
+        _scheduleClear();
+      }
     });
   }
 
