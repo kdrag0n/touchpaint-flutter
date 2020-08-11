@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:touchpaint/blank.dart';
 import 'package:touchpaint/fill.dart';
 import 'package:touchpaint/follow.dart';
 import 'package:touchpaint/paint.dart';
+
+const appDescription = 'A simple app for touch latency testing.';
 
 void main() => runApp(PaintApp());
 
@@ -207,7 +210,7 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  void selectMenuItem(String item) {
+  void selectMenuItem(String item) async {
     switch (item) {
       case 'Show event rate':
         setState(() {
@@ -222,8 +225,20 @@ class _MainPageState extends State<MainPage> {
         });
         break;
       case 'About':
+        final packageInfo = await PackageInfo.fromPlatform();
+
         showAboutDialog(
           context: context,
+          applicationIcon: FlutterLogo(),
+          applicationName: packageInfo.appName,
+          applicationVersion: packageInfo.version,
+          applicationLegalese: '© 2020 Danny Lin (kdrag0n)',
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: Text(appDescription),
+            ),
+          ],
         );
         break;
     }
