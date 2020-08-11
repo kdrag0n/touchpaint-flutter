@@ -3,16 +3,17 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 class PaintPainter extends CustomPainter {
-  PaintPainter(this.paths);
+  PaintPainter(this.paths, this.strokeWidth);
 
   final List<Path> paths;
+  final double strokeWidth;
 
   @override
   void paint(Canvas canvas, Size size) {
     final brushPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2
+      ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
@@ -29,7 +30,9 @@ class PaintPainter extends CustomPainter {
 }
 
 class PaintWidget extends StatefulWidget {
-  PaintWidget({Key key}) : super(key: key);
+  PaintWidget({Key key, this.brushSize}) : super(key: key);
+
+  final double brushSize;
 
   @override
   _PaintWidgetState createState() => _PaintWidgetState();
@@ -82,7 +85,7 @@ class _PaintWidgetState extends State<PaintWidget> {
       onPointerMove: _fingerMove,
       onPointerUp: _fingerUp,
       child: CustomPaint(
-        painter: PaintPainter(_paths)
+        painter: PaintPainter(_paths, widget.brushSize),
       ),
     );
   }

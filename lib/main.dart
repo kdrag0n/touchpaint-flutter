@@ -36,7 +36,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   Mode _mode = Mode.PAINT;
   bool _showEventRate = false;
-  int _brushSize = 2;
+  double _brushSize = 2;
   int _paintClearDelay = 0;
 
   Future<void> _changeMode() async {
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _changeBrushSize() async {
-    int newSize = await showDialog(
+    double newSize = await showDialog(
         context: context,
         builder: (context) => SimpleDialog(
             title: const Text('Select brush size'),
@@ -82,35 +82,35 @@ class _MainPageState extends State<MainPage> {
               ),
               SimpleDialogOption(
                 child: const Text('1 px'),
-                onPressed: () { Navigator.pop(context, 1); },
+                onPressed: () { Navigator.pop(context, 1.0); },
               ),
               SimpleDialogOption(
                 child: const Text('2 px'),
-                onPressed: () { Navigator.pop(context, 2); },
+                onPressed: () { Navigator.pop(context, 2.0); },
               ),
               SimpleDialogOption(
                 child: const Text('3 px'),
-                onPressed: () { Navigator.pop(context, 3); },
+                onPressed: () { Navigator.pop(context, 3.0); },
               ),
               SimpleDialogOption(
                 child: const Text('5 px'),
-                onPressed: () { Navigator.pop(context, 5); },
+                onPressed: () { Navigator.pop(context, 5.0); },
               ),
               SimpleDialogOption(
                 child: const Text('10 px'),
-                onPressed: () { Navigator.pop(context, 10); },
+                onPressed: () { Navigator.pop(context, 10.0); },
               ),
               SimpleDialogOption(
                 child: const Text('15 px'),
-                onPressed: () { Navigator.pop(context, 15); },
+                onPressed: () { Navigator.pop(context, 15.0); },
               ),
               SimpleDialogOption(
                 child: const Text('50 px'),
-                onPressed: () { Navigator.pop(context, 50); },
+                onPressed: () { Navigator.pop(context, 50.0); },
               ),
               SimpleDialogOption(
                 child: const Text('150 px'),
-                onPressed: () { Navigator.pop(context, 150); },
+                onPressed: () { Navigator.pop(context, 150.0); },
               ),
             ],
         ),
@@ -184,7 +184,7 @@ class _MainPageState extends State<MainPage> {
 
     switch (_mode) {
       case Mode.PAINT:
-        bodyWidget = PaintWidget();
+        bodyWidget = PaintWidget(brushSize: _brushSize);
         break;
       case Mode.FILL:
         bodyWidget = FillWidget();
