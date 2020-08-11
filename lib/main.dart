@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:touchpaint/blank.dart';
 import 'package:touchpaint/fill.dart';
+import 'package:touchpaint/follow.dart';
 import 'package:touchpaint/paint.dart';
 
 void main() => runApp(PaintApp());
@@ -189,7 +190,7 @@ class _MainPageState extends State<MainPage> {
         bodyWidget = FillWidget();
         break;
       case Mode.FOLLOW:
-        // TODO: Handle this case.
+        bodyWidget = FollowWidget();
         break;
       case Mode.BLANK:
         bodyWidget = BlankWidget();
