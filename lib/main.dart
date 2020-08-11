@@ -36,7 +36,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   Mode _mode = Mode.PAINT;
   bool _showEventRate = false;
-  double _brushSize = 2;
+  double _paintBrushSize = 2;
   int _paintClearDelay = 0;
 
   Future<void> _changeMode() async {
@@ -117,7 +117,7 @@ class _MainPageState extends State<MainPage> {
     );
 
     setState(() {
-      _brushSize = newSize;
+      _paintBrushSize = newSize;
     });
   }
 
@@ -184,7 +184,7 @@ class _MainPageState extends State<MainPage> {
 
     switch (_mode) {
       case Mode.PAINT:
-        bodyWidget = PaintWidget(brushSize: _brushSize);
+        bodyWidget = PaintWidget(brushSize: _paintBrushSize);
         break;
       case Mode.FILL:
         bodyWidget = FillWidget();
