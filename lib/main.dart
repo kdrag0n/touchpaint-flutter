@@ -215,6 +215,11 @@ class _MainPageState extends State<MainPage> {
           _prefs?.setBool('show_event_rate', _showEventRate);
         });
         break;
+      case 'About':
+        showAboutDialog(
+          context: context,
+        );
+        break;
     }
   }
 
@@ -267,6 +272,10 @@ class _MainPageState extends State<MainPage> {
                 checked: _showEventRate,
                 value: 'Show event rate',
                 child: const Text('Show event rate'),
+              ),
+              PopupMenuItem<String>(
+                value: 'About',
+                child: const Text('About'),
               ),
             ],
           ),
