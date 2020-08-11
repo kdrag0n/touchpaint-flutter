@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:touchpaint/blank.dart';
 import 'package:touchpaint/fill.dart';
 import 'package:touchpaint/paint.dart';
 
@@ -191,7 +192,7 @@ class _MainPageState extends State<MainPage> {
         // TODO: Handle this case.
         break;
       case Mode.BLANK:
-        // TODO: Handle this case.
+        bodyWidget = BlankWidget();
         break;
     }
 
