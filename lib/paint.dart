@@ -71,6 +71,7 @@ class _PaintWidgetState extends State<PaintWidget> {
   }
 
   void _scheduleEventRate() {
+    _eventCount = 0;
     _eventRateTimer = Timer.periodic(Duration(seconds: 1), _eventRateCallback);
   }
 
