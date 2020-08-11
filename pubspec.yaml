@@ -74,5 +74,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_icons:
-  image_path: 'assets/icon_square.png'
+  image_path: 'assets/icons/square.png'
   ios: true
