@@ -229,7 +229,11 @@ class _MainPageState extends State<MainPage> {
 
         showAboutDialog(
           context: context,
-          applicationIcon: FlutterLogo(),
+          applicationIcon: Image.asset(
+            'assets/icons/circle.png',
+            width: 64,
+            height: 64,
+          ),
           applicationName: packageInfo.appName,
           applicationVersion: packageInfo.version,
           applicationLegalese: '© 2020 Danny Lin (kdrag0n)',
