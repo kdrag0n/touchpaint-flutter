@@ -34,15 +34,15 @@ class _PaintPageState extends State<PaintPage> {
       appBar: AppBar(
         title: Text('Touchpaint'),
       ),
-      body: LayoutBuilder(
-        builder: (_, constraints) => Container(
-            width: constraints.widthConstraints().maxWidth,
-            height: constraints.heightConstraints().maxHeight,
-            color: Colors.black,
-            child: CustomPaint(painter: PaintPainter()
-          )
-        )
-      )
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        color: Colors.black,
+        child: Listener(
+          child: CustomPaint(
+            painter: PaintPainter()
+          ),
+        ),
+      ),
     );
   }
 }
