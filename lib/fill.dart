@@ -46,10 +46,7 @@ class _FillWidgetState extends State<FillWidget> {
     setState(() {
       _fingers++;
 
-      if (_clearTimer != null) {
-        _clearTimer.cancel();
-      }
-
+      _clearTimer?.cancel();
       _down = true;
     });
   }

@@ -82,8 +82,8 @@ class _PaintWidgetState extends State<PaintWidget> {
       _fingers++;
 
       if (_fingers == 1) {
-        if (widget.clearDelay > 0 && _clearTimer != null) {
-          _clearTimer.cancel();
+        if (widget.clearDelay > 0) {
+          _clearTimer?.cancel();
         } else if (widget.clearDelay == 0) {
           _clearCanvas();
         }
@@ -120,9 +120,7 @@ class _PaintWidgetState extends State<PaintWidget> {
           _scheduleClear();
         }
 
-        if (_eventRateTimer != null) {
-          _eventRateTimer.cancel();
-        }
+        _eventRateTimer?.cancel();
       }
     });
   }
