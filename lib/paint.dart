@@ -40,12 +40,21 @@ class _PaintPageState extends State<PaintPage> {
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
 
+  void _clearCanvas() {
+    _paths.clear();
+  }
+
   void _fingerDown(PointerEvent details) {
+    Path path = Path();
+    path.moveTo(details.localPosition.dx, details.localPosition.dy);
+
     setState(() {
       _fingers++;
 
-      Path path = Path();
-      path.moveTo(details.localPosition.dx, details.localPosition.dy);
+      if (_fingers == 1) {
+        _clearCanvas();
+      }
+
       _curPaths[details.pointer] = path;
       _paths.add(path);
     });
