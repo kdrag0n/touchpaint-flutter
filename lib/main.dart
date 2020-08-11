@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:touchpaint/blank.dart';
 import 'package:touchpaint/fill.dart';
 import 'package:touchpaint/follow.dart';
@@ -49,6 +50,24 @@ class _MainPageState extends State<MainPage> {
   bool _showEventRate = false;
   double _paintBrushSize = 2;
   int _paintClearDelay = 0;
+  SharedPreferences _prefs;
+
+  loadPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _mode = Mode.values[_prefs.getInt('mode') ?? 0];
+      _showEventRate = _prefs.getBool('show_event_rate') ?? false;
+      _paintBrushSize = _prefs.getDouble('paint_brush_size') ?? 2;
+      _paintClearDelay = _prefs.getInt('paint_clear_delay') ?? 0;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadPrefs();
+  }
 
   Future<void> _changeMode() async {
     Mode newMode = await showDialog(
@@ -79,6 +98,7 @@ class _MainPageState extends State<MainPage> {
     if (newMode != null) {
       setState(() {
         _mode = newMode;
+        _prefs?.setInt('mode', newMode.index);
       });
     }
   }
@@ -132,6 +152,7 @@ class _MainPageState extends State<MainPage> {
     if (newSize != null) {
       setState(() {
         _paintBrushSize = newSize;
+        _prefs?.setDouble('paint_brush_size', newSize);
       });
     }
   }
@@ -181,6 +202,7 @@ class _MainPageState extends State<MainPage> {
     if (newDelay != null) {
       setState(() {
         _paintClearDelay = newDelay;
+        _prefs?.setInt('paint_clear_delay', newDelay);
       });
     }
   }
@@ -190,6 +212,7 @@ class _MainPageState extends State<MainPage> {
       case 'Show event rate':
         setState(() {
           _showEventRate = !_showEventRate;
+          _prefs?.setBool('show_event_rate', _showEventRate);
         });
         break;
     }
