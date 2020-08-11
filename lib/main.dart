@@ -11,7 +11,23 @@ class PaintApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PaintPage(),
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Touchpaint'),
+      ),
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        color: Colors.black,
+        child: PaintWidget(),
+      ),
     );
   }
 }

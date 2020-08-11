@@ -2,18 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-class PaintPage extends StatefulWidget {
-  PaintPage({Key key}) : super(key: key);
-
-  @override
-  _PaintPageState createState() => _PaintPageState();
-}
-
 class PaintPainter extends CustomPainter {
   PaintPainter(this.paths);
-  
+
   final List<Path> paths;
-  
+
   @override
   void paint(Canvas canvas, Size size) {
     final brushPaint = Paint()
@@ -35,7 +28,14 @@ class PaintPainter extends CustomPainter {
   }
 }
 
-class _PaintPageState extends State<PaintPage> {
+class PaintWidget extends StatefulWidget {
+  PaintWidget({Key key}) : super(key: key);
+
+  @override
+  _PaintWidgetState createState() => _PaintWidgetState();
+}
+
+class _PaintWidgetState extends State<PaintWidget> {
   List<Path> _paths = [];
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
@@ -77,21 +77,12 @@ class _PaintPageState extends State<PaintPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Touchpaint'),
-      ),
-      body: Container(
-        constraints: BoxConstraints.expand(),
-        color: Colors.black,
-        child: Listener(
-          onPointerDown: _fingerDown,
-          onPointerMove: _fingerMove,
-          onPointerUp: _fingerUp,
-          child: CustomPaint(
-            painter: PaintPainter(_paths)
-          ),
-        ),
+    return Listener(
+      onPointerDown: _fingerDown,
+      onPointerMove: _fingerMove,
+      onPointerUp: _fingerUp,
+      child: CustomPaint(
+        painter: PaintPainter(_paths)
       ),
     );
   }
