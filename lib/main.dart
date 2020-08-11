@@ -193,6 +193,7 @@ class _MainPageState extends State<MainPage> {
         bodyWidget = PaintWidget(
           brushSize: _paintBrushSize,
           clearDelay: _paintClearDelay,
+          showEventRate: _showEventRate,
         );
         break;
       case Mode.FILL:

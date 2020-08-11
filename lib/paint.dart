@@ -31,10 +31,11 @@ class PaintPainter extends CustomPainter {
 }
 
 class PaintWidget extends StatefulWidget {
-  PaintWidget({Key key, this.brushSize, this.clearDelay}) : super(key: key);
+  PaintWidget({Key key, this.brushSize, this.clearDelay, this.showEventRate}) : super(key: key);
 
   final double brushSize;
   final int clearDelay;
+  final bool showEventRate;
 
   @override
   _PaintWidgetState createState() => _PaintWidgetState();
@@ -45,6 +46,8 @@ class _PaintWidgetState extends State<PaintWidget> {
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
   Timer _clearTimer;
+  Timer _eventRateTimer;
+  int _eventCount = 0;
 
   void _clearCanvas() {
     _paths.clear();
@@ -56,6 +59,19 @@ class _PaintWidgetState extends State<PaintWidget> {
         _clearCanvas();
       });
     });
+  }
+
+  void _eventRateCallback(Timer timer) {
+    final snackBar = SnackBar(content: Text('Touch event rate: $_eventCount Hz'));
+    _eventCount = 0;
+
+    final scaffold = Scaffold.of(context);
+    scaffold.hideCurrentSnackBar();
+    scaffold.showSnackBar(snackBar);
+  }
+
+  void _scheduleEventRate() {
+    _eventRateTimer = Timer.periodic(Duration(seconds: 1), _eventRateCallback);
   }
 
   void _fingerDown(PointerEvent details) {
@@ -71,6 +87,10 @@ class _PaintWidgetState extends State<PaintWidget> {
         } else if (widget.clearDelay == 0) {
           _clearCanvas();
         }
+
+        if (widget.showEventRate) {
+          _scheduleEventRate();
+        }
       }
 
       _curPaths[details.pointer] = path;
@@ -83,6 +103,10 @@ class _PaintWidgetState extends State<PaintWidget> {
   void _fingerMove(PointerEvent details) {
     setState(() {
       _curPaths[details.pointer].lineTo(details.localPosition.dx, details.localPosition.dy);
+
+      if (widget.showEventRate) {
+        _eventCount++;
+      }
     });
   }
 
@@ -91,8 +115,14 @@ class _PaintWidgetState extends State<PaintWidget> {
       _fingers--;
       _curPaths.remove(details.pointer);
 
-      if (widget.clearDelay > 0) {
-        _scheduleClear();
+      if (_fingers == 0) {
+        if (widget.clearDelay > 0) {
+          _scheduleClear();
+        }
+
+        if (_eventRateTimer != null) {
+          _eventRateTimer.cancel();
+        }
       }
     });
   }
