@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:touchpaint/fill.dart';
 import 'package:touchpaint/paint.dart';
 
 void main() => runApp(PaintApp());
@@ -177,6 +178,23 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget bodyWidget;
+
+    switch (_mode) {
+      case Mode.PAINT:
+        bodyWidget = PaintWidget();
+        break;
+      case Mode.FILL:
+        bodyWidget = FillWidget();
+        break;
+      case Mode.FOLLOW:
+        // TODO: Handle this case.
+        break;
+      case Mode.BLANK:
+        // TODO: Handle this case.
+        break;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Touchpaint'),
@@ -211,7 +229,7 @@ class _MainPageState extends State<MainPage> {
       body: Container(
         constraints: BoxConstraints.expand(),
         color: Colors.black,
-        child: PaintWidget(),
+        child: bodyWidget,
       ),
     );
   }
