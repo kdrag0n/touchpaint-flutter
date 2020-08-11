@@ -1,16 +1,8 @@
-# touchpaint
+# Touchpaint Flutter
 
-A new Flutter project.
+This is a simple Flutter app for latency testing and comparison to the [Touchpaint Linux kernel module](https://github.com/kdrag0n/touchpaint) and [native Android app](https://github.com/kdrag0n/touchpaint). Available modes include:
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Paint with finger (for testing drag latency)
+- Fill screen on touch (for testing tap latency)
+- Box follows touch (for testing drag latency differently, similar to this [Microsoft Research video](https://www.youtube.com/watch?v=vOvQCPLkPt4))
+- Blank redraw (for testing baseline rendering performance)
