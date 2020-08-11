@@ -211,8 +211,14 @@ class _MainPageState extends State<MainPage> {
     switch (item) {
       case 'Show event rate':
         setState(() {
-          _showEventRate = !_showEventRate;
-          _prefs?.setBool('show_event_rate', _showEventRate);
+          _showEventRate = true;
+          _prefs?.setBool('show_event_rate', true);
+        });
+        break;
+      case 'Hide event rate':
+        setState(() {
+          _showEventRate = false;
+          _prefs?.setBool('hide_event_rate', false);
         });
         break;
       case 'About':
@@ -246,6 +252,8 @@ class _MainPageState extends State<MainPage> {
         break;
     }
 
+    final eventRateText = _showEventRate ? 'Hide event rate' : 'Show event rate';
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Touchpaint'),
@@ -268,10 +276,9 @@ class _MainPageState extends State<MainPage> {
           PopupMenuButton<String>(
             onSelected: selectMenuItem,
             itemBuilder: (context) => <PopupMenuEntry<String>>[
-              CheckedPopupMenuItem<String>(
-                checked: _showEventRate,
-                value: 'Show event rate',
-                child: const Text('Show event rate'),
+              PopupMenuItem<String>(
+                value: eventRateText,
+                child: Text(eventRateText),
               ),
               PopupMenuItem<String>(
                 value: 'About',
