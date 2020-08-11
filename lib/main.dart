@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
                 onPressed: () { Navigator.pop(context, Mode.FOLLOW); },
               ),
               SimpleDialogOption(
-                child: const Text('Blank'),
+                child: const Text('Blank redraw'),
                 onPressed: () { Navigator.pop(context, Mode.BLANK); },
               ),
             ],
