@@ -65,9 +65,11 @@ class _MainPageState extends State<MainPage> {
         ),
     );
 
-    setState(() {
-      _mode = newMode;
-    });
+    if (newMode != null) {
+      setState(() {
+        _mode = newMode;
+      });
+    }
   }
 
   Future<void> _changeBrushSize() async {
@@ -116,9 +118,11 @@ class _MainPageState extends State<MainPage> {
         ),
     );
 
-    setState(() {
-      _paintBrushSize = newSize;
-    });
+    if (newSize != null) {
+      setState(() {
+        _paintBrushSize = newSize;
+      });
+    }
   }
 
   Future<void> _changeClearDelay() async {
@@ -163,9 +167,11 @@ class _MainPageState extends State<MainPage> {
       ),
     );
 
-    setState(() {
-      _paintClearDelay = newDelay;
-    });
+    if (newDelay != null) {
+      setState(() {
+        _paintClearDelay = newDelay;
+      });
+    }
   }
 
   void selectMenuItem(String item) {
