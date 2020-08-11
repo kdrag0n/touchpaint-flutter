@@ -11,8 +11,19 @@ class PaintApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Touchpaint',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        brightness: Brightness.dark,
         primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          color: Color(0xff2b2b2b),
+        ),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: TextStyle(
+            color: ColorScheme.dark().onSurface,
+          ),
+          backgroundColor: ColorScheme.dark().surface,
+        )
       ),
       home: MainPage(),
     );
