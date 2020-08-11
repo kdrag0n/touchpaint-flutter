@@ -8,9 +8,23 @@ class PaintPage extends StatefulWidget {
 }
 
 class PaintPainter extends CustomPainter {
+  PaintPainter(this.paths);
+  
+  final List<Path> paths;
+  
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
+    final brushPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..isAntiAlias = true;
+
+    for (Path path in paths) {
+      canvas.drawPath(path, brushPaint);
+    }
   }
 
   @override
@@ -20,11 +34,32 @@ class PaintPainter extends CustomPainter {
 }
 
 class _PaintPageState extends State<PaintPage> {
-  int _counter = 0;
+  List<Path> _paths = [];
+  int _fingers = 0;
+  Path _curPath;
 
-  void _incrementCounter() {
+  void _fingerDown(PointerEvent details) {
     setState(() {
-      _counter++;
+      _fingers++;
+      _curPath = Path();
+      _curPath.moveTo(details.localPosition.dx, details.localPosition.dy);
+      _paths.add(_curPath);
+    });
+
+    _fingerMove(details);
+  }
+
+  void _fingerMove(PointerEvent details) {
+    setState(() {
+      _curPath.lineTo(details.localPosition.dx, details.localPosition.dy);
+    });
+  }
+
+  void _fingerUp(PointerEvent details) {
+    setState(() {
+      _fingers--;
+      _paths.add(_curPath);
+      _curPath = null;
     });
   }
 
@@ -38,8 +73,11 @@ class _PaintPageState extends State<PaintPage> {
         constraints: BoxConstraints.expand(),
         color: Colors.black,
         child: Listener(
+          onPointerDown: _fingerDown,
+          onPointerMove: _fingerMove,
+          onPointerUp: _fingerUp,
           child: CustomPaint(
-            painter: PaintPainter()
+            painter: PaintPainter(_paths)
           ),
         ),
       ),
