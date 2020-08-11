@@ -54,6 +54,7 @@ class _FollowWidgetState extends State<FollowWidget> {
       onPointerDown: _fingerMove,
       onPointerMove: _fingerMove,
       onPointerUp: _fingerUp,
+      onPointerCancel: _fingerUp,
       child: CustomPaint(
         painter: FollowPainter(_points)
       ),

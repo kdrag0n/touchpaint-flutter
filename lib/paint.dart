@@ -132,6 +132,7 @@ class _PaintWidgetState extends State<PaintWidget> {
       onPointerDown: _fingerDown,
       onPointerMove: _fingerMove,
       onPointerUp: _fingerUp,
+      onPointerCancel: _fingerUp,
       child: CustomPaint(
         painter: PaintPainter(_paths, widget.brushSize),
       ),

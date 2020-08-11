@@ -63,6 +63,7 @@ class _FillWidgetState extends State<FillWidget> {
     return Listener(
       onPointerDown: _fingerDown,
       onPointerUp: _fingerUp,
+      onPointerCancel: _fingerUp,
       child: CustomPaint(
         painter: FillPainter(_down)
       ),
