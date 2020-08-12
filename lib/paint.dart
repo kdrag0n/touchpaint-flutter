@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 class PaintPainter extends CustomPainter {
-  PaintPainter(this.paths, this.strokeWidth);
+  PaintPainter(this.paths, this.strokeWidth, this.points);
 
   final List<Path> paths;
+  final List<Offset> points;
   final double strokeWidth;
 
   @override
@@ -19,8 +21,19 @@ class PaintPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true;
 
+    final pointPaint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth * 1.5
+      ..strokeCap = StrokeCap.square
+      ..isAntiAlias = true;
+
     for (Path path in paths) {
       canvas.drawPath(path, brushPaint);
+    }
+
+    if (points != null) {
+      canvas.drawPoints(PointMode.points, points, pointPaint);
     }
   }
 
@@ -31,11 +44,12 @@ class PaintPainter extends CustomPainter {
 }
 
 class PaintWidget extends StatefulWidget {
-  PaintWidget({Key key, this.brushSize, this.clearDelay, this.showEventRate}) : super(key: key);
+  PaintWidget({Key key, this.brushSize, this.clearDelay, this.showEventRate, this.showEventPoints}) : super(key: key);
 
   final double brushSize;
   final int clearDelay;
   final bool showEventRate;
+  final bool showEventPoints;
 
   @override
   _PaintWidgetState createState() => _PaintWidgetState();
@@ -43,6 +57,7 @@ class PaintWidget extends StatefulWidget {
 
 class _PaintWidgetState extends State<PaintWidget> {
   List<Path> _paths = [];
+  List<Offset> _points = [];
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
   Timer _clearTimer;
@@ -51,6 +66,7 @@ class _PaintWidgetState extends State<PaintWidget> {
 
   void _clearCanvas() {
     _paths.clear();
+    _points.clear();
   }
 
   void _scheduleClear() {
@@ -108,6 +124,10 @@ class _PaintWidgetState extends State<PaintWidget> {
       if (widget.showEventRate) {
         _eventCount++;
       }
+
+      if (widget.showEventPoints) {
+        _points.add(details.localPosition);
+      }
     });
   }
 
@@ -134,7 +154,7 @@ class _PaintWidgetState extends State<PaintWidget> {
       onPointerUp: _fingerUp,
       onPointerCancel: _fingerUp,
       child: CustomPaint(
-        painter: PaintPainter(_paths, widget.brushSize),
+        painter: PaintPainter(_paths, widget.brushSize, widget.showEventPoints ? _points : null),
       ),
     );
   }

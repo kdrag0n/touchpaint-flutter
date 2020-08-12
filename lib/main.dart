@@ -53,6 +53,7 @@ class _MainPageState extends State<MainPage> {
   bool _showEventRate = false;
   double _paintBrushSize = 2;
   int _paintClearDelay = 0;
+  bool _showEventPoints = false;
   SharedPreferences _prefs;
 
   loadPrefs() async {
@@ -61,6 +62,7 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _mode = Mode.values[_prefs.getInt('mode') ?? 0];
       _showEventRate = _prefs.getBool('show_event_rate') ?? false;
+      _showEventPoints = _prefs.getBool('show_event_points') ?? false;
       _paintBrushSize = _prefs.getDouble('paint_brush_size') ?? 2;
       _paintClearDelay = _prefs.getInt('paint_clear_delay') ?? 0;
     });
@@ -221,7 +223,19 @@ class _MainPageState extends State<MainPage> {
       case 'Hide event rate':
         setState(() {
           _showEventRate = false;
-          _prefs?.setBool('hide_event_rate', false);
+          _prefs?.setBool('show_event_rate', false);
+        });
+        break;
+      case 'Show event points':
+        setState(() {
+          _showEventPoints = true;
+          _prefs?.setBool('show_event_points', true);
+        });
+        break;
+      case 'Hide event points':
+        setState(() {
+          _showEventPoints = false;
+          _prefs?.setBool('show_event_points', false);
         });
         break;
       case 'About':
@@ -258,6 +272,7 @@ class _MainPageState extends State<MainPage> {
           brushSize: _paintBrushSize,
           clearDelay: _paintClearDelay,
           showEventRate: _showEventRate,
+          showEventPoints: _showEventPoints,
         );
         break;
       case Mode.FILL:
@@ -272,6 +287,7 @@ class _MainPageState extends State<MainPage> {
     }
 
     final eventRateText = _showEventRate ? 'Hide event rate' : 'Show event rate';
+    final eventPointsText = _showEventPoints ? 'Hide event points' : 'Show event points';
 
     return Scaffold(
       appBar: AppBar(
@@ -298,6 +314,10 @@ class _MainPageState extends State<MainPage> {
               PopupMenuItem<String>(
                 value: eventRateText,
                 child: Text(eventRateText),
+              ),
+              PopupMenuItem<String>(
+                value: eventPointsText,
+                child: Text(eventPointsText),
               ),
               PopupMenuItem<String>(
                 value: 'About',
