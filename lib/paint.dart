@@ -44,11 +44,11 @@ class PaintPainter extends CustomPainter {
 }
 
 class PaintWidget extends StatefulWidget {
-  PaintWidget({Key key, this.brushSize, this.clearDelay, this.showEventRate, this.showEventPoints}) : super(key: key);
+  PaintWidget({Key key, this.brushSize, this.clearDelay, this.showSampleRate, this.showEventPoints}) : super(key: key);
 
   final double brushSize;
   final int clearDelay;
-  final bool showEventRate;
+  final bool showSampleRate;
   final bool showEventPoints;
 
   @override
@@ -61,7 +61,7 @@ class _PaintWidgetState extends State<PaintWidget> {
   int _fingers = 0;
   Map<int, Path> _curPaths = HashMap();
   Timer _clearTimer;
-  Timer _eventRateTimer;
+  Timer _sampleRateTimer;
   int _eventCount = 0;
 
   void _clearCanvas() {
@@ -77,8 +77,8 @@ class _PaintWidgetState extends State<PaintWidget> {
     });
   }
 
-  void _eventRateCallback(Timer timer) {
-    final snackBar = SnackBar(content: Text('Touch event rate: $_eventCount Hz'));
+  void _sampleRateCallback(Timer timer) {
+    final snackBar = SnackBar(content: Text('Touch sample rate: $_eventCount Hz'));
     _eventCount = 0;
 
     final scaffold = Scaffold.of(context);
@@ -86,9 +86,9 @@ class _PaintWidgetState extends State<PaintWidget> {
     scaffold.showSnackBar(snackBar);
   }
 
-  void _scheduleEventRate() {
+  void _scheduleSampleRate() {
     _eventCount = 0;
-    _eventRateTimer = Timer.periodic(Duration(seconds: 1), _eventRateCallback);
+    _sampleRateTimer = Timer.periodic(Duration(seconds: 1), _sampleRateCallback);
   }
 
   void _fingerDown(PointerEvent details) {
@@ -105,8 +105,8 @@ class _PaintWidgetState extends State<PaintWidget> {
           _clearCanvas();
         }
 
-        if (widget.showEventRate) {
-          _scheduleEventRate();
+        if (widget.showSampleRate) {
+          _scheduleSampleRate();
         }
       }
 
@@ -121,7 +121,7 @@ class _PaintWidgetState extends State<PaintWidget> {
     setState(() {
       _curPaths[details.pointer].lineTo(details.localPosition.dx, details.localPosition.dy);
 
-      if (widget.showEventRate) {
+      if (widget.showSampleRate) {
         _eventCount++;
       }
 
@@ -141,7 +141,7 @@ class _PaintWidgetState extends State<PaintWidget> {
           _scheduleClear();
         }
 
-        _eventRateTimer?.cancel();
+        _sampleRateTimer?.cancel();
       }
     });
   }

@@ -50,7 +50,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   Mode _mode = Mode.PAINT;
-  bool _showEventRate = false;
+  bool _showSampleRate = false;
   double _paintBrushSize = 2;
   int _paintClearDelay = 0;
   bool _showEventPoints = false;
@@ -61,7 +61,7 @@ class _MainPageState extends State<MainPage> {
 
     setState(() {
       _mode = Mode.values[_prefs.getInt('mode') ?? 0];
-      _showEventRate = _prefs.getBool('show_event_rate') ?? false;
+      _showSampleRate = _prefs.getBool('show_sample_rate') ?? false;
       _showEventPoints = _prefs.getBool('show_event_points') ?? false;
       _paintBrushSize = _prefs.getDouble('paint_brush_size') ?? 2;
       _paintClearDelay = _prefs.getInt('paint_clear_delay') ?? 0;
@@ -214,16 +214,16 @@ class _MainPageState extends State<MainPage> {
 
   void selectMenuItem(String item) async {
     switch (item) {
-      case 'Show event rate':
+      case 'Show sample rate':
         setState(() {
-          _showEventRate = true;
-          _prefs?.setBool('show_event_rate', true);
+          _showSampleRate = true;
+          _prefs?.setBool('show_sample_rate', true);
         });
         break;
-      case 'Hide event rate':
+      case 'Hide sample rate':
         setState(() {
-          _showEventRate = false;
-          _prefs?.setBool('show_event_rate', false);
+          _showSampleRate = false;
+          _prefs?.setBool('show_sample_rate', false);
         });
         break;
       case 'Show event points':
@@ -271,7 +271,7 @@ class _MainPageState extends State<MainPage> {
         bodyWidget = PaintWidget(
           brushSize: _paintBrushSize,
           clearDelay: _paintClearDelay,
-          showEventRate: _showEventRate,
+          showSampleRate: _showSampleRate,
           showEventPoints: _showEventPoints,
         );
         break;
@@ -286,7 +286,7 @@ class _MainPageState extends State<MainPage> {
         break;
     }
 
-    final eventRateText = _showEventRate ? 'Hide event rate' : 'Show event rate';
+    final sampleRateText = _showSampleRate ? 'Hide sample rate' : 'Show sample rate';
     final eventPointsText = _showEventPoints ? 'Hide event points' : 'Show event points';
 
     return Scaffold(
@@ -312,8 +312,8 @@ class _MainPageState extends State<MainPage> {
             onSelected: selectMenuItem,
             itemBuilder: (context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
-                value: eventRateText,
-                child: Text(eventRateText),
+                value: sampleRateText,
+                child: Text(sampleRateText),
               ),
               PopupMenuItem<String>(
                 value: eventPointsText,
