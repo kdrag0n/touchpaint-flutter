@@ -1,6 +1,6 @@
 # Touchpaint Flutter
 
-This is a simple Flutter app for latency testing and comparison to the [Touchpaint Linux kernel module](https://github.com/kdrag0n/touchpaint) and [native Android app](https://github.com/kdrag0n/touchpaint). Available modes include:
+This is a simple Flutter app for latency testing and comparison to the [Touchpaint Linux kernel module](https://github.com/kdrag0n/touchpaint) and [native Android app](https://github.com/kdrag0n/touchpaint-android). Available modes include:
 
 - Paint with finger (for testing drag latency)
 - Fill screen on touch (for testing tap latency)
